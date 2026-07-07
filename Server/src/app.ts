@@ -1,3 +1,4 @@
+import authRoutes from "./routes/authRoutes";
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -16,7 +17,7 @@ app.use(express.json());
 
 // Parse cookies
 app.use(cookieParser());
-
+app.use("/api/auth", authRoutes);
 // Test Route
 app.get("/", (req, res) => {
   res.status(200).json({
