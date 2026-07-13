@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Auth System Portal</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800 text-center">🔐 API Login Test</h2>
+        
+        <!-- Wrap inputs in a form and use onsubmit to guarantee intercept -->
+        <form onsubmit="handleLogin(event)" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Email Address</label>
+                <input type="email" id="email" value="reset@example.com" required class="mt-1 w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none text-black">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Password</label>
+                <input type="password" id="password" placeholder="••••••••" required class="mt-1 w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none text-black">
+            </div>
+            
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-md font-semibold transition cursor-pointer">
+                Sign In
+            </button>
+        </form>
+
+        <div id="outputCard" class="mt-6 p-4 rounded-md hidden border">
+            <p class="text-xs font-mono break-words" id="msg"></p>
+        </div>
+    </div>
+
+    <script>
+        async function handleLogin(event) {
+            // Stop the browser from automatically refreshing the page
+            event.preventDefault();
+            console.log("Login button clicked! Preparing network request...");
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const outputCard = document.getElementById('outputCard');
+            const msg = document.getElementById('msg');
+
+            // Expose the card to show a loading placeholder state
+            outputCard.classList.remove('hidden');
+            outputCard.className = "mt-6 p-4 rounded-md border bg-gray-50 border-gray-200 text-gray-600";
+            msg.innerText = "Sending credentials to backend...";
+
+            try {
+                console.log("Sending POST payload to /api/auth/login...");
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                console.log("Response received with HTTP status code:", res.status);
+                const data = await res.json();
+                console.log("Parsed response payload metadata:", data);
+                
+                outputCard.className = "mt-6 p-4 rounded-md border";
+                
+                if (res.ok) {
+                    outputCard.classList.add('bg-green-50', 'border-green-200', 'text-green-800');
+                    msg.innerHTML = `<strong>Success (200 OK)!</strong><br>${data.message || 'Logged in successfully.'}`;
+                } else {
+                    outputCard.classList.add('bg-red-50', 'border-red-200', 'text-red-800');
+                    msg.innerHTML = `<strong>Error Status ${res.status}:</strong><br>${data.message || 'Request failed.'}`;
+                }
+            } catch (err) {
+                console.error("Critical network catch triggered:", err);
+                outputCard.className = "mt-6 p-4 rounded-md border bg-red-50 border-red-200 text-red-800";
+                msg.innerHTML = `<strong>Network Error:</strong><br>${err.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -34,3 +34,7 @@ export const registerSchema = z.object({
       message: "Password must contain at least one special character.",
     }),
 });
+export const loginSchema = z.object({
+  email: z.email(),
+  password: z.string().min(1, "Password is required"),
+});
