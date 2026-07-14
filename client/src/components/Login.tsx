@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import API from "../api/axios";
 
-// 1. Update your LoginProps interface at the top of Login.tsx:
 interface LoginProps {
   setView: (v: "login" | "signup" | "forgot" | "dashboard") => void;
   onLoginSuccess: () => void;
@@ -18,8 +17,11 @@ export default function Login({ setView, onLoginSuccess }: LoginProps) {
     setError("");
     setLoading(true);
     try {
-      // Change this line in your Login.tsx if your backend expects a 'username' key:
-      await API.post("/auth/login", {email, password });
+      // Cleanly trims any leading or trailing accidental spaces from the input string
+      await API.post("/auth/login", { 
+        email: email.trim(), 
+        password 
+      });
       onLoginSuccess();
     } catch (err: any) {
       setError(err.response?.data?.message || "Invalid email or password.");

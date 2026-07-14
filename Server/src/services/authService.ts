@@ -1,9 +1,6 @@
 import bcrypt from "bcrypt";
-import { sendVerificationEmail } from "../utils/email";
 import { pool } from "../config/database";
 import { RegisterUserData } from "../types/auth.types";
-import { generateVerificationToken } from "../utils/token";
-import { createVerificationToken } from "./verificationService";
 
 export async function registerUserService(data: RegisterUserData) {
   const { firstName, lastName, username, email, password } = data;
@@ -26,7 +23,14 @@ export async function registerUserService(data: RegisterUserData) {
   // Hash the password
   const passwordHash = await bcrypt.hash(password, 12);
 
-  // Insert the user
+  // 1. Generate a 6-digit numeric string code
+  const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+
+  // 2. Set expiration timestamp to exactly 10 minutes from now
+  const otpExpiresAt = new Date();
+  otpExpiresAt.setMinutes(otpExpiresAt.getMinutes() + 10);
+
+  // 3. Insert the user including the OTP schema properties
   const result = await pool.query(
     `
     INSERT INTO users
@@ -35,39 +39,36 @@ export async function registerUserService(data: RegisterUserData) {
         last_name,
         username,
         email,
-        password_hash
+        password_hash,
+        otp,
+        otp_expires_at,
+        email_verified
       )
     VALUES
-      ($1, $2, $3, $4, $5)
+      ($1, $2, $3, $4, $5, $6, $7, $8)
     RETURNING
       id,
+      first_name,
       username,
       email,
+      otp,
       created_at
     `,
-    [firstName, lastName, username, email, passwordHash]
+    [
+      firstName, 
+      lastName, 
+      username, 
+      email, 
+      passwordHash, 
+      generatedOtp, 
+      otpExpiresAt, 
+      false
+    ]
   );
 
   const newUser = result.rows[0];
 
-  // --- EMAIL VERIFICATION TOKEN LOGIC ---
-  const token = generateVerificationToken();
-  const expiresAt = new Date();
-  expiresAt.setHours(expiresAt.getHours() + 24); // Token valid for 24 hours
-
-  await createVerificationToken({
-    userId: newUser.id,
-    token,
-    expiresAt,
-  });
-  try {
-  await sendVerificationEmail(newUser.email, token);
-       } catch (emailError) {
-  // We log the error but don't crash registration if the email fails to dispatch
-  console.error("Failed to send verification email:", emailError);
-    }
-
-  // Return the user data (Later, we will also trigger the actual email dispatch here)
+  // Return the user data (containing .otp and .first_name for your controller's email function)
   return newUser;
 }
 

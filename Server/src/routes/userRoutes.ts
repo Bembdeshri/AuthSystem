@@ -1,28 +1,43 @@
 import { Router, Response } from "express";
-import {
-  authenticateToken,
-  AuthRequest,
-} from "../middleware/authMiddleware";
-import { getUserProfile } from "../controllers/userController";
- 
+import { authenticateToken, AuthRequest } from "../middleware/authMiddleware";
+
 const router = Router();
 
 /**
- * GET /api/user/dashboard
- * Protected route that acts as the main entry portal for authenticated users
+ * @route   GET /user/profile
+ * @desc    Retrieve the current logged-in user profile
+ * @access  Private (Requires valid HTTP-only accessToken cookie)
  */
-router.get("/dashboard", authenticateToken, (req: AuthRequest, res: Response) => {
-  res.status(200).json({
-    success: true,
-    message: "Welcome to your dashboard!",
-    user: req.user,
-  });
-});
+router.get("/profile", authenticateToken, async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    // 1. Double check that req.user was attached by the auth middleware
+    const currentUser = req.user;
 
-/**
- * GET /api/user/profile
- * Protected route that forwards execution to the controller to return detailed user session data
- */
-router.get("/profile", authenticateToken, getUserProfile);
+    if (!currentUser) {
+      res.status(401).json({
+        success: false,
+        message: "Unauthorized access. No session profile context is active.",
+      });
+      return;
+    }
+
+    // 2. Return the profile payload directly to the dashboard
+    res.status(200).json({
+      success: true,
+      user: {
+        id: currentUser.userId,
+        email: currentUser.email,
+        role: currentUser.role,
+        sessionId: currentUser.sessionId,
+      },
+    });
+  } catch (error) {
+    console.error("Profile Fetch Error:", error);
+    res.status(500).json({
+      success: false,
+      message: "An unexpected error occurred while fetching your profile.",
+    });
+  }
+});
 
 export default router;

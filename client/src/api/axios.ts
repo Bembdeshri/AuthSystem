@@ -1,11 +1,9 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000",
-  withCredentials: true, // This is mandatory so HttpOnly cookies pass back and forth
-  headers: {
-    "Content-Type": "application/json",
-  },
+  baseURL: "http://localhost:5000/api", // Make sure /api is included here!
+  withCredentials: true,
+  headers: { "Content-Type": "application/json" },
 });
 
 export default API;

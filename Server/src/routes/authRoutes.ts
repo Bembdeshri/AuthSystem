@@ -1,21 +1,29 @@
 import { Router } from "express";
-// 1. Check your import name here. Ensure it maps correctly!
-import { registerUser,
-   loginUser,
-    logoutUser,
-     verifyEmail,
-    resendVerification,
-    requestPasswordReset,
-  resetPassword} from "../controllers/authController";
+import { 
+  registerUser,
+  loginUser,
+  logoutUser,
+  verifyEmail,
+  verifyOtp,
+  resendVerification,
+  forgotPassword,
+  resetPassword 
+} from "../controllers/authController";
 
 const router = Router();
 
-// 2. Change the route handler back to match your original endpoint
+// 🔑 Sign Up & Email Verification Pipelines
 router.post("/signup", registerUser); 
+router.post("/verify-otp", verifyOtp);
+router.post("/resend-verification", resendVerification);
+router.get("/verify-email", verifyEmail); // Left intact if you still support direct link verification
+
+// 🚪 Session Lifecycle
 router.post("/login", loginUser);
 router.post("/logout", logoutUser);
-router.get("/verify-email", verifyEmail);
-router.post("/resend-verification", resendVerification);
-router.post("/forgot-password", requestPasswordReset);
+
+// 🔄 Secure Password Recovery Handshakes
+router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
+
 export default router;
