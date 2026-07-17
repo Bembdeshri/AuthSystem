@@ -31,6 +31,16 @@ CREATE TABLE users (
 
     last_login TIMESTAMP NULL,
 
+    is_verified BOOLEAN DEFAULT FALSE,
+
+    otp VARCHAR(6) NULL,
+
+    otp_expires_at TIMESTAMP NULL,
+
+    reset_token VARCHAR(255) NULL,
+
+    reset_token_expires_at TIMESTAMP NULL,
+
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP

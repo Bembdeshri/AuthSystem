@@ -9,20 +9,24 @@ DROP TABLE IF EXISTS login_history CASCADE;
 CREATE TABLE login_history (
     id BIGSERIAL PRIMARY KEY,
 
-    user_id BIGINT NOT NULL,
+    user_id BIGINT NULL,
+
+    email VARCHAR(255) NULL,
+
+    login_status VARCHAR(50) NULL,
 
     ip_address INET,
 
     user_agent TEXT,
 
-    success BOOLEAN NOT NULL,
+    success BOOLEAN NULL,
 
     login_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_login_history_user
         FOREIGN KEY (user_id)
         REFERENCES users(id)
-        ON DELETE CASCADE
+        ON DELETE SET NULL
 );
 
 CREATE INDEX idx_login_history_user_id

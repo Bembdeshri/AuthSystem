@@ -11,7 +11,7 @@ CREATE TABLE sessions (
 
     user_id BIGINT NOT NULL,
 
-    session_token TEXT NOT NULL UNIQUE,
+    session_id UUID NOT NULL UNIQUE,
 
     expires_at TIMESTAMP NOT NULL,
 
@@ -26,8 +26,8 @@ CREATE TABLE sessions (
 CREATE INDEX idx_sessions_user_id
 ON sessions(user_id);
 
-CREATE INDEX idx_sessions_token
-ON sessions(session_token);
+CREATE INDEX idx_sessions_id
+ON sessions(session_id);
 
 CREATE INDEX idx_sessions_expires_at
 ON sessions(expires_at);

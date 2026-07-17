@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import ForgotPassword from "./components/ForgotPassword";
@@ -37,17 +37,22 @@ export default function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100 flex items-center justify-center">
-        <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-amber-500 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
 
+  // Dashboard takes full page — no wrapper padding/header
+  if (view === "dashboard") {
+    return <Dashboard onLogout={() => setView("login")} />;
+  }
+
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-50 via-slate-100 to-blue-50/30 flex flex-col items-center justify-center p-6">
-      <header className="mb-8 text-center">
-        <h1 className="text-4xl font-black text-gray-900 tracking-tight">AuthSystem v1.0</h1>
-        <p className="text-sm text-gray-500 mt-1 font-mono">PostgreSQL + HTTP-Only Cookie Gateway</p>
+    <div className="min-h-screen flex flex-col items-center justify-center p-6">
+      <header className="mb-8 text-center animate-fadein">
+        <h1 className="text-4xl font-black tracking-tight" style={{ color: '#3C1A06' }}>ShieldGate</h1>
+        <p className="text-sm mt-1 font-mono" style={{ color: '#A0845C' }}>Secure Authentication Gateway</p>
       </header>
 
       {view === "login" && (
@@ -68,10 +73,6 @@ export default function App() {
 
       {view === "forgot-password" && (
         <ForgotPassword setView={setView} />
-      )}
-
-      {view === "dashboard" && (
-        <Dashboard onLogout={() => setView("login")} />
       )}
     </div>
   );
