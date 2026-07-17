@@ -98,3 +98,25 @@ Bash
 cd client
 npm install
 npm run dev
+
+## 📸 App Preview
+
+## 📸 App Preview
+
+### Login Screen
+![Login  UI](./Images/image1.png)
+![security](./Images/image2.png)
+![secutity](./Images/image3.png)
+![secutity](./Images/image4.png)
+![secutity](./Images/image5.png)
+![secutity](./Images/image6.png)
+![secutity](./Images/image7.png)
+## Email-verification
+![secutity](./Images/image8.png)
+##Forget_password
+![forget ui](./Images/image9.png)
+##
+![secutity](./Images/image10.png)
+### Dashboard Screen
+![Dashboard Screen](./Images/image11.png)
+
