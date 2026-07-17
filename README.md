@@ -106,20 +106,20 @@ npm run dev
 ## 📸 App Preview
 
 ### Login Screen
-![Login UI](./images/image1.png)
-![security](./images/image2.png)
-![security](./images/image3.png)
-![security](./images/image4.png)
-![security](./images/image5.png)
-![security](./images/image6.png)
-![security](./images/image7.png)
+![Login UI](./images/image1.png](https://github.com/Bembdeshri/AuthSystem/blob/0797effb5c365a6a2448223e81fb1907e38acbd6/Images/image1.png))
+![security](https://github.com/Bembdeshri/AuthSystem/blob/0797effb5c365a6a2448223e81fb1907e38acbd6/Images/image2.png))
+![security](https://github.com/Bembdeshri/AuthSystem/blob/0797effb5c365a6a2448223e81fb1907e38acbd6/Images/image3.png))
+![security](https://github.com/Bembdeshri/AuthSystem/blob/0797effb5c365a6a2448223e81fb1907e38acbd6/Images/image4.png)
+![security](https://github.com/Bembdeshri/AuthSystem/blob/0797effb5c365a6a2448223e81fb1907e38acbd6/Images/image5.png)
+![security](https://github.com/Bembdeshri/AuthSystem/blob/0797effb5c365a6a2448223e81fb1907e38acbd6/Images/image6.png)
+![security](https://github.com/Bembdeshri/AuthSystem/blob/0797effb5c365a6a2448223e81fb1907e38acbd6/Images/image7.png)
 
 ## Email Verification
-![security](./images/image8.png)
+![security](https://github.com/Bembdeshri/AuthSystem/blob/0797effb5c365a6a2448223e81fb1907e38acbd6/Images/image8.png)
 
 ## Forgot Password
-![forget ui](./images/image9.png)
-![security](./images/image10.png)
+![forget ui](https://github.com/Bembdeshri/AuthSystem/blob/0797effb5c365a6a2448223e81fb1907e38acbd6/Images/image9.png)
+![security](https://github.com/Bembdeshri/AuthSystem/blob/0797effb5c365a6a2448223e81fb1907e38acbd6/Images/image10.png)
 
 ### Dashboard Screen
-![Dashboard Screen](./images/image11.png)
+![Dashboard Screen](https://github.com/Bembdeshri/AuthSystem/blob/0797effb5c365a6a2448223e81fb1907e38acbd6/Images/image11.png)
